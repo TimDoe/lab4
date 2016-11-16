@@ -10,9 +10,9 @@ import de.ws1617.pccl.grammar.NonTerminal;
 public class Main {
 
 	public static void main(String[] args) {
-
+//TEST by Matthias
 		// read runtime arguments
-		try {
+		try { 
 			Grammar grammar = GrammarUtils.readGrammar(args[0]);
 			Lexicon lexicon = GrammarUtils.readLexicon(args[1]);
 			NonTerminal startSymbol = new NonTerminal(args[2]);
