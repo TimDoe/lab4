@@ -12,7 +12,11 @@ import de.ws1617.pccl.grammar.Terminal;
 public class Graph {
 
 	// TODO add instance fields here 
-	
+	private ArrayList <HashSet<Edge>> adj;
+	//for each state indicate whether it is final
+	private boolean[] finalStates;
+	//number of vertices
+	private final int v;
 	/**
 	 * Initialize the adjacency and final state array.
 	 * 
@@ -21,12 +25,15 @@ public class Graph {
 	 */
 	public Graph(int v) {
 		// TODO implement me !
+		if(v < 0) throw new IllegalArgumentException("Cannot have a negative number of vertices.");
+		this.v = v;
+		adj = (ArrayList <HashSet<Edge>>) new ArrayList[v];
 	}
-
+	//add an edge from a vertex
 	public void addEdge(int from, Edge edge) {
 		// TODO implement me !
 	}
-
+	//all edges from this state with this terminal
 	public HashSet<Edge> getAdjacent(int from) {
 
 		// TODO implement me !
