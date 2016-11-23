@@ -27,10 +27,41 @@ public class Automaton {
 	public Automaton(Grammar grammar, Lexicon lexicon, NonTerminal startSymbol) {
 		super();
 
+		this.startSymbol = startSymbol;
 		// TODO create the union of the nonterminals from lexicon and grammar
-
+         for(NonTerminal nt :  grammar.getNonTerminals()){
+        	 nonTerminals.add(nt);
+         }
+         for(NonTerminal nt :  lexicon.getNonTerminals()){
+        	 if(!nonTerminals.contains(nt))  nonTerminals.add(nt);
+         }
+         
 		// TODO create a graph based on the grammar and lexicon
 		// attention: how many states do you need ?
+        
+         graph = new Graph(nonTerminals.size() + 1);
+         graph.setFinalState(0);
+         int counter = 1; //start with 1, because 0 is finalstate
+         
+         //check in grammar
+         HashSet<ArrayList<Symbol>> tmpsetgram = new HashSet<ArrayList<Symbol>>();
+         HashSet<ArrayList<Terminal>> tmpsetlex = new HashSet<ArrayList<Terminal>>();
+         for(NonTerminal nt : nonTerminals){
+        	 tmpsetgram = grammar.getRuleForLHS(nt);
+        	 for(ArrayList<Symbol> al : tmpsetgram){
+        		 Edge tmpedge = new Edge((Terminal) al.get(0), nonTerminals.indexOf(al.get(1)));
+        		 graph.addEdge(counter, tmpedge);
+        	 } // end for al
+        	 
+        	 // check in lex
+        	 tmpsetlex = lexicon.getRules(nt);
+        	 for(ArrayList<Terminal> al : tmpsetlex){
+        		 Edge tmpedge = new Edge((Terminal) al.get(0),0);
+        		 graph.addEdge(counter, tmpedge);
+        	 } // end for al
+        	 counter++;
+         } // end for nonTerminals 
+         if (counter> nonTerminals.size()+1 ) System.out.println("should never happen");
 	}
 
 	/**
@@ -42,7 +73,13 @@ public class Automaton {
 	public boolean recognize(String input) {
 
 		// TODO implement me !
-
+		ArrayList<Terminal> termlist = initialize(input);
+		Hypothesis starthyp = new Hypothesis(nonTerminals.indexOf(startSymbol), 0);
+		ArrayList<Hypothesis> hypolist = new ArrayList<Hypothesis>();
+		hypolist.add(starthyp);
+		while (!hypolist.isEmpty())
+			
+		
 		return false;
 	}
 
