@@ -18,19 +18,25 @@ public class Main {
 			Lexicon lexicon = GrammarUtils.readLexicon(args[1]);
 			NonTerminal startSymbol = new NonTerminal(args[2]);
 			String input = args[3];
-
+			String testinput = "Falsch";
+			String testinput2 = "the man";
 			// TODO create grammar, lexicon, start symbol
 			// TODO create an Automaton object
-			//Automaton automaton = new Automaton();
+			Automaton automaton = new Automaton(grammar, lexicon, startSymbol);
 			// TODO print out whether the given input is in the language
-			if(Automaton.recognize(input) == true) {
+			System.out.println(testinput + automaton.recognize(testinput)+ " "+ testinput2+ automaton.recognize(testinput2));
+			/*
+			 * if (automaton.recognize(input) == true) {
 			System.out.println("The given input is in the language.");
 			}
 			else {
 				System.out.println("The given input is not in the language.");
 			}
+			*/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 }

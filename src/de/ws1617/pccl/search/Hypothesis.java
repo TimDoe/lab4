@@ -3,8 +3,8 @@ package de.ws1617.pccl.search;
 public class Hypothesis {
 
 	// TODO implement me !
-	private int state;
-	private int inputIndex;
+	public int state;
+	public int inputIndex;
 
 	public Hypothesis() {
 		
@@ -14,5 +14,11 @@ public class Hypothesis {
 		
 		this.state = state;
 		this.inputIndex = inputIndex;
+	}
+	public int getState(){
+		return state;
+	}
+	public int getIndex(){
+		return inputIndex;
 	}
 }

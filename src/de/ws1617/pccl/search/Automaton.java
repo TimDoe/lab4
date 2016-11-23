@@ -42,27 +42,7 @@ public class Automaton {
         
          graph = new Graph(nonTerminals.size() + 1);
          graph.setFinalState(0);
-         int counter = 1; //start with 1, because 0 is finalstate
-         
-         //check in grammar
-         HashSet<ArrayList<Symbol>> tmpsetgram = new HashSet<ArrayList<Symbol>>();
-         HashSet<ArrayList<Terminal>> tmpsetlex = new HashSet<ArrayList<Terminal>>();
-         for(NonTerminal nt : nonTerminals){
-        	 tmpsetgram = grammar.getRuleForLHS(nt);
-        	 for(ArrayList<Symbol> al : tmpsetgram){
-        		 Edge tmpedge = new Edge((Terminal) al.get(0), nonTerminals.indexOf(al.get(1)));
-        		 graph.addEdge(counter, tmpedge);
-        	 } // end for al
-        	 
-        	 // check in lex
-        	 tmpsetlex = lexicon.getRules(nt);
-        	 for(ArrayList<Terminal> al : tmpsetlex){
-        		 Edge tmpedge = new Edge((Terminal) al.get(0),0);
-        		 graph.addEdge(counter, tmpedge);
-        	 } // end for al
-        	 counter++;
-         } // end for nonTerminals 
-         if (counter> nonTerminals.size()+1 ) System.out.println("should never happen");
+         addRules(grammar, lexicon);
 	}
 
 	/**
@@ -74,14 +54,22 @@ public class Automaton {
 	public boolean recognize (String input) {
 
 		// TODO implement me !
-		ArrayList<Terminal> termlist = initialize(input);
+		ArrayList<Terminal> inputTerm = initialize(input);
 		Hypothesis starthyp = new Hypothesis(nonTerminals.indexOf(startSymbol), 0);
-		ArrayList<Hypothesis> hypolist = new ArrayList<Hypothesis>();
-		hypolist.add(starthyp);
-		while (!hypolist.isEmpty()) {
-			//TODO
-			graph.getAdjacent();
-		}
+		agenda.push(starthyp);
+
+		while (!agenda.isEmpty()) {
+			Hypothesis hyp = agenda.pop();
+			ArrayList<Hypothesis> hyplist = successors(hyp, inputTerm);
+			for(Hypothesis h : hyplist){
+				if(isFinalState(h,inputTerm)){
+					return true;
+				}else if(h.getIndex()<inputTerm.size()){
+					agenda.push(h);
+				}
+			}
+			
+		} // end while
 			
 		
 		return false;
@@ -98,7 +86,14 @@ public class Automaton {
 
 		// TODO implement me !
 		
-		return null;
+		ArrayList<Hypothesis> hyplist = new ArrayList<Hypothesis>();
+		
+		 HashSet<Edge> Edgeset = graph.getAdjacent(h.getState());
+		 for(Edge e : Edgeset){
+			 int nextState = e.transition(input.get(h.getIndex()));
+			 hyplist.add(new Hypothesis(nextState, h.getIndex()+1));
+		 }// end for
+		return hyplist;
 	}
 
 	/**
@@ -112,12 +107,13 @@ public class Automaton {
 	private ArrayList<Terminal> initialize(String s) {
 
 		// TODO implement me !
-		Stack<Hypothesis> agenda = new Stack<Hypothesis>();
-		while (!s.equals(null)) {
+		ArrayList<Terminal> termList = new ArrayList<Terminal>();
 			String[] parts = s.trim().split("\\s+");
-			agenda.push(parts); //?? TODO
+			for(int i=0; i< parts.length; i++) {
+				Terminal t = new Terminal(parts[i]);
+		     termList.add(t);
 		}
-		return null;
+		return termList;
 	}
 
 	/**
@@ -131,11 +127,8 @@ public class Automaton {
 	 */
 	public boolean isFinalState(Hypothesis h, List<Terminal> input) {
 		// TODO implement me !
-		if(input.equals(0) && h.equals(0)) {
-		return true;
-		}
-		else
-		return false;
+		 return (h.getIndex()== input.size()-1 && graph.isFinalState(h.getState()));
+		
 	}
 
 	/**
@@ -150,6 +143,26 @@ public class Automaton {
 	public void addRules(Grammar gr, Lexicon lex) {
 
 		// TODO implement me !
-
+		int counter = 1; //start with 1, because 0 is finalstate
+        
+        //check in grammar
+        HashSet<ArrayList<Symbol>> tmpsetgram = new HashSet<ArrayList<Symbol>>();
+        HashSet<ArrayList<Terminal>> tmpsetlex = new HashSet<ArrayList<Terminal>>();
+        for(NonTerminal nt : nonTerminals){
+       	 tmpsetgram = gr.getRuleForLHS(nt);
+       	 for(ArrayList<Symbol> al : tmpsetgram){
+       		 Edge tmpedge = new Edge((Terminal) al.get(0), nonTerminals.indexOf(al.get(1)));
+       		 graph.addEdge(counter, tmpedge);
+       	 } // end for al
+       	 
+       	 // check in lex
+       	 tmpsetlex = lex.getRules(nt);
+       	 for(ArrayList<Terminal> al : tmpsetlex){
+       		 Edge tmpedge = new Edge((Terminal) al.get(0),0);
+       		 graph.addEdge(counter, tmpedge);
+       	 } // end for al
+       	 counter++;
+        } // end for nonTerminals 
+        if (counter > nonTerminals.size()+1 ) System.out.println("should never happen");
 	}
 }

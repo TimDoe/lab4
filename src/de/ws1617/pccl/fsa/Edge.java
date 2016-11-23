@@ -17,7 +17,7 @@ public class Edge
 		goal = aGoal;
 	}
 	
-	public int change(Terminal aTerminal)
+	public int transition(Terminal aTerminal)
 	{
 		if (toConsume.equals(aTerminal))
 		{
@@ -30,7 +30,4 @@ public class Edge
 		
 		return toConsume;
 	}
-
-
 }
-
