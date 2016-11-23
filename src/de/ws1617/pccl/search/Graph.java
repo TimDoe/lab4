@@ -28,14 +28,15 @@ public class Graph {
 
 		if(v < 0) throw new IllegalArgumentException("Cannot have a negative number of vertices.");
 		this.v = v;
-		adj = new ArrayList<HashSet<Edge>>(v);
+		adj = new ArrayList <HashSet<Edge>>();
+		for(int i=0; i<v ; i++) adj.add(new HashSet<Edge>());
 		finalStates = new boolean[v];
 		Arrays.fill(finalStates, Boolean.FALSE);
 	}
 	
 	//add an edge from a vertex
 	public void addEdge(int from, Edge edge) {
-
+        if(from>adj.size()) System.out.println("From: " + from + "Size " + adj.size());
 		adj.get(from).add(edge);
 	}
 	//all edges from this state with this terminal
@@ -78,7 +79,6 @@ public class Graph {
 	 * @return
 	 */
 	public boolean isFinalState(int index) {
-		
 		return finalStates[index];
 	}
 }

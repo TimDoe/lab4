@@ -10,7 +10,7 @@ import de.ws1617.pccl.grammar.Terminal;
 public class Edge 
 {
 	Terminal toConsume;
-	int goal;
+	public int goal;
 	public Edge(Terminal aTerminal, int aGoal) 
 	{
 		toConsume = aTerminal;
@@ -19,6 +19,7 @@ public class Edge
 	
 	public int transition(Terminal aTerminal)
 	{
+		
 		if (toConsume.equals(aTerminal))
 		{
 			return goal;

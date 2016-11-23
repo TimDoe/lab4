@@ -29,6 +29,8 @@ public class Automaton {
 		super();
 
 		this.startSymbol = startSymbol;
+		nonTerminals = new ArrayList<NonTerminal>();
+		agenda = new Stack<Hypothesis>();
 		// TODO create the union of the nonterminals from lexicon and grammar
          for(NonTerminal nt :  grammar.getNonTerminals()){
         	 nonTerminals.add(nt);
@@ -36,7 +38,6 @@ public class Automaton {
          for(NonTerminal nt :  lexicon.getNonTerminals()){
         	 if(!nonTerminals.contains(nt))  nonTerminals.add(nt);
          }
-         
 		// TODO create a graph based on the grammar and lexicon
 		// attention: how many states do you need ?
         
@@ -55,7 +56,7 @@ public class Automaton {
 
 		// TODO implement me !
 		ArrayList<Terminal> inputTerm = initialize(input);
-		Hypothesis starthyp = new Hypothesis(nonTerminals.indexOf(startSymbol), 0);
+		Hypothesis starthyp = new Hypothesis(nonTerminals.indexOf(startSymbol) + 1, 0);
 		agenda.push(starthyp);
 
 		while (!agenda.isEmpty()) {
@@ -87,11 +88,10 @@ public class Automaton {
 		// TODO implement me !
 		
 		ArrayList<Hypothesis> hyplist = new ArrayList<Hypothesis>();
-		
 		 HashSet<Edge> Edgeset = graph.getAdjacent(h.getState());
 		 for(Edge e : Edgeset){
-			 int nextState = e.transition(input.get(h.getIndex()));
-			 hyplist.add(new Hypothesis(nextState, h.getIndex()+1));
+			 int nextState = e.transition(input.get(h.getIndex())); //nextState=-1 if bad transition
+			 if(nextState >= 0) hyplist.add(new Hypothesis(nextState, h.getIndex()+1));
 		 }// end for
 		return hyplist;
 	}
@@ -127,7 +127,7 @@ public class Automaton {
 	 */
 	public boolean isFinalState(Hypothesis h, List<Terminal> input) {
 		// TODO implement me !
-		 return (h.getIndex()== input.size()-1 && graph.isFinalState(h.getState()));
+		 return (h.getIndex()== input.size() && graph.isFinalState(h.getState()));
 		
 	}
 
@@ -151,7 +151,7 @@ public class Automaton {
         for(NonTerminal nt : nonTerminals){
        	 tmpsetgram = gr.getRuleForLHS(nt);
        	 for(ArrayList<Symbol> al : tmpsetgram){
-       		 Edge tmpedge = new Edge((Terminal) al.get(0), nonTerminals.indexOf(al.get(1)));
+       		 Edge tmpedge = new Edge((Terminal) al.get(0), nonTerminals.indexOf(al.get(1))+1); //+1 because every state is saved with an 1 bigger index because of finalstate 0
        		 graph.addEdge(counter, tmpedge);
        	 } // end for al
        	 
@@ -163,6 +163,5 @@ public class Automaton {
        	 } // end for al
        	 counter++;
         } // end for nonTerminals 
-        if (counter > nonTerminals.size()+1 ) System.out.println("should never happen");
 	}
 }
