@@ -6,6 +6,7 @@ import de.ws1617.pccl.grammar.Grammar;
 import de.ws1617.pccl.grammar.GrammarUtils;
 import de.ws1617.pccl.grammar.Lexicon;
 import de.ws1617.pccl.grammar.NonTerminal;
+import de.ws1617.pccl.search.Automaton;
 
 public class Main {
 
@@ -19,11 +20,15 @@ public class Main {
 			String input = args[3];
 
 			// TODO create grammar, lexicon, start symbol
-
 			// TODO create an Automaton object
-
+			//Automaton automaton = new Automaton();
 			// TODO print out whether the given input is in the language
-
+			if(Automaton.recognize(input) == true) {
+			System.out.println("The given input is in the language.");
+			}
+			else {
+				System.out.println("The given input is not in the language.");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

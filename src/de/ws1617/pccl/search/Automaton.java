@@ -13,6 +13,7 @@ import de.ws1617.pccl.grammar.Lexicon;
 import de.ws1617.pccl.grammar.NonTerminal;
 import de.ws1617.pccl.grammar.Symbol;
 import de.ws1617.pccl.grammar.Terminal;
+import de.ws1617.pccl.search.Graph;
 
 public class Automaton {
 
@@ -79,6 +80,7 @@ public class Automaton {
 		hypolist.add(starthyp);
 		while (!hypolist.isEmpty()) {
 			//TODO
+			graph.getAdjacent();
 		}
 			
 		
@@ -95,6 +97,7 @@ public class Automaton {
 	private ArrayList<Hypothesis> successors(Hypothesis h, ArrayList<Terminal> input) {
 
 		// TODO implement me !
+		
 		return null;
 	}
 
@@ -109,6 +112,11 @@ public class Automaton {
 	private ArrayList<Terminal> initialize(String s) {
 
 		// TODO implement me !
+		Stack<Hypothesis> agenda = new Stack<Hypothesis>();
+		while (!s.equals(null)) {
+			String[] parts = s.trim().split("\\s+");
+			agenda.push(parts); //?? TODO
+		}
 		return null;
 	}
 
@@ -123,6 +131,10 @@ public class Automaton {
 	 */
 	public boolean isFinalState(Hypothesis h, List<Terminal> input) {
 		// TODO implement me !
+		if(input.equals(0) && h.equals(0)) {
+		return true;
+		}
+		else
 		return false;
 	}
 
@@ -140,5 +152,4 @@ public class Automaton {
 		// TODO implement me !
 
 	}
-
 }
