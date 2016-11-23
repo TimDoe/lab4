@@ -1,4 +1,4 @@
-package de.ws1617.pccl.fsa;
+ package de.ws1617.pccl.fsa;
 
 import de.ws1617.pccl.grammar.Terminal;
 
@@ -15,9 +15,8 @@ public class Edge
 	{
 		toConsume = aTerminal;
 		goal = aGoal;
-
-
 	}
+	
 	public int change(Terminal aTerminal)
 	{
 		if (toConsume.equals(aTerminal))
@@ -25,10 +24,12 @@ public class Edge
 			return goal;
 		}
 		else return -1;
-
-
 	}
-
+	
+	public Terminal getTerminal() {
+		
+		return toConsume;
+	}
 
 
 }
