@@ -25,22 +25,21 @@ public class Graph {
 	 *            the number of vertices in the graph.
 	 */
 	public Graph(int v) {
-		// TODO implement me !
+
 		if(v < 0) throw new IllegalArgumentException("Cannot have a negative number of vertices.");
 		this.v = v;
 		adj = new ArrayList<HashSet<Edge>>(v);
 		finalStates = new boolean[v];
 		Arrays.fill(finalStates, Boolean.FALSE);
-		
 	}
+	
 	//add an edge from a vertex
 	public void addEdge(int from, Edge edge) {
-		// TODO implement me !
+
 		adj.get(from).add(edge);
 	}
 	//all edges from this state with this terminal
 	public HashSet<Edge> getAdjacent(int from) {
-		// TODO implement me !
 
 		return adj.get(from);
 	}
@@ -54,7 +53,6 @@ public class Graph {
 	 * @return a set of edges adjacent to the from state reachable via the terminal toConsume.
 	 */
 	public HashSet<Edge> getAdjacent(int from, Terminal toConsume) {
-		// TODO implement me !
 		//fill HashSet with edges
 		HashSet<Edge> rval = new HashSet<Edge>();
 		for (Edge e : adj.get(from)) {
@@ -70,7 +68,7 @@ public class Graph {
 	 * @param index 
 	 */
 	public void setFinalState(int index) {
-		// TODO implement me !
+
 		finalStates[index] = true;
 	}
 
@@ -80,7 +78,7 @@ public class Graph {
 	 * @return
 	 */
 	public boolean isFinalState(int index) {
-		// TODO implement me !
+		
 		return finalStates[index];
 	}
 }

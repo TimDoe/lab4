@@ -70,14 +70,16 @@ public class Automaton {
 	 * @param input
 	 * @return
 	 */
-	public boolean recognize(String input) {
+	public boolean recognize (String input) {
 
 		// TODO implement me !
 		ArrayList<Terminal> termlist = initialize(input);
 		Hypothesis starthyp = new Hypothesis(nonTerminals.indexOf(startSymbol), 0);
 		ArrayList<Hypothesis> hypolist = new ArrayList<Hypothesis>();
 		hypolist.add(starthyp);
-		while (!hypolist.isEmpty())
+		while (!hypolist.isEmpty()) {
+			//TODO
+		}
 			
 		
 		return false;
